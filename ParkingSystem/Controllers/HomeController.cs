@@ -10,6 +10,7 @@ using ParkingSystem.Models;
 
 namespace ParkingSystem.Controllers
 {    
+    //Home controller
     public class HomeController : Controller
     {
         static HttpClient httpClient = new HttpClient();

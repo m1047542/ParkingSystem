@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace ParkingSystem.Controllers
 {
+    //Parking request controller
     public class ParkingRequestController : Controller
     {
         // GET: ParkingRequest
