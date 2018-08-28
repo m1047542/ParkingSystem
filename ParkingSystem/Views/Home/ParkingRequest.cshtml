@@ -1,0 +1,90 @@
+﻿@model ParkingSystem.Models.ParkingRequestViewModel
+
+@{
+    ViewBag.Title = "Parking Request";
+}
+
+<h2>ParkingRequest</h2>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="col-md-4">
+                @Html.Label("City", new { id = "lblCity" })
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("City", new SelectList(Model.Cities, "CityId", "CityName"), "Select City", new { id = "ddlCities" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="col-md-4">
+                @Html.Label("Parking provider", new { id = "lblProvider" })
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("Provider", new SelectList(Model.Providers, "ProviderId", "ProviderName"), "Select Provider", new { id = "ddlProviders" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="col-md-4">
+                @Html.Label("Check-in date", new { id = "lblcheckinDate" })
+            </div>
+            <div class="col-md-4">
+                <input type="date" id="dtCheckinDate" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="col-md-4">
+                @Html.Label("Check-out date", new { id = "lblcheckoutDate" })
+            </div>
+            <div class="col-md-4">
+                <input type="date" id="dtCheckoutDate" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="col-md-4">
+                <input type="button" id="btnParkingRequest" value="Request a parking" />
+            </div>
+            <div class="col-md-4">                
+                <input type="button" id="btnParkingCancel" value="Cancel" onclick="location.href='@Url.Action("Index", "Home")'" />
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $("#ddlCities").change(function () {            
+            $("#ddlProviders").find('option').remove().end();
+            $.ajax({
+                url: "/Home/ProvidersByCity",
+                data: { cityId: $("#ddlCities").val() },
+                cache: false,
+                type: "GET",
+                success: function (responseData) {
+                    if (responseData != null) {
+                        $.each(responseData, function (i, prov) {
+                            $("#ddlProviders").append('<option value="' + prov.ProviderId + '">' +
+                                prov.ProviderName + '</option>');
+                        });
+                    }
+                },
+                error: function (responseData) {
+
+                }
+            });
+        });
+
+        $('input[id*=dtp]').datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+        
+    });
+    
+</script>
