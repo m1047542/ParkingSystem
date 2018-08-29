@@ -12,6 +12,7 @@ namespace ParkingSystem.Controllers
         // GET: ParkingRequest
         public ActionResult Index()
         {
+            //test comment
             return View();
         }
     }
